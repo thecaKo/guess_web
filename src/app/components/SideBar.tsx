@@ -127,7 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         ) : (
           <div className="flex flex-col gap-3">
             <Link
-              href="/registrar"
+              href="/register"
               className="flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded text-center transition-colors duration-200"
             >
               <UserPlus className="mr-2" size={20} /> Registrar

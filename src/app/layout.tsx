@@ -32,7 +32,7 @@ export default function RootLayout({
             - overflow-y-auto: Permite rolagem vertical SOMENTE dentro desta área, se o conteúdo exceder a altura
             - p-4: Padding para não colar o conteúdo nas bordas
           */}
-          <main className="flex-grow h-screen p-4 overflow-y-auto">
+          <main className="flex-grow h-screen overflow-y-auto">
             {children}
           </main>
         </div>
