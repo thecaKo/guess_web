@@ -12,6 +12,7 @@ import {
   LogIn,
   UserPlus,
   LogOut,
+  Award, 
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
@@ -53,6 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   const sidebarItems: SidebarItem[] = [
     { id: 'MiniGame', label: 'MiniGame', icon: Users, link: '/minigame' },
+    { id: 'Ranking', label: 'Ranking', icon: Award, link: '/ranking' },
     { id: 'Ajustes', label: 'Ajustes', icon: Settings, link: '/ajustes' },
     { id: 'Documentacao', label: 'Documentação', icon: HelpCircle, link: '/documentacao' },
     { id: 'Bandeiras', label: 'Bandeiras', icon: MessageSquare, link: '/flags' },
@@ -68,13 +70,17 @@ const Sidebar: React.FC<SidebarProps> = ({
           'Content-Type': 'application/json',
         },
       });
+      if (response.ok) {
+        console.log("Logout bem-sucedido na API de backend.");
+      } else {
+      }
     } catch (error) {
       console.error("Erro ao conectar com o endpoint de logout:", error);
     } finally {
       Cookies.remove('refreshToken');
       console.log("Usuário deslogado localmente!");
-      router.push('/'); 
-      router.refresh();
+      router.push('/');
+      router.refresh(); 
     }
   };
 
@@ -145,7 +151,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             <Link
               href="/" 
               onClick={handleLogout}
-              className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-center mt-4 transition-colors duration-200" // Adicionado mt-4 para espaçamento
+              className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-center mt-4 transition-colors duration-200"
             >
               <LogOut className="mr-2" size={20} />
               Logout
