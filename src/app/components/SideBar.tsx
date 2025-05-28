@@ -52,10 +52,10 @@ const Sidebar: React.FC<SidebarProps> = ({
   }, [pathname]);
 
   const sidebarItems: SidebarItem[] = [
-    { id: 'MiniGame', label: 'MiniGame', icon: Users, link: '/MiniGame' },
+    { id: 'MiniGame', label: 'MiniGame', icon: Users, link: '/minigame' },
     { id: 'Ajustes', label: 'Ajustes', icon: Settings, link: '/ajustes' },
     { id: 'Documentacao', label: 'Documentação', icon: HelpCircle, link: '/documentacao' },
-    { id: 'Bandeiras', label: 'Bandeiras', icon: MessageSquare, link: '/chatbot' },
+    { id: 'Bandeiras', label: 'Bandeiras', icon: MessageSquare, link: '/flags' },
   ];
 
   const handleLogout = async (e: React.MouseEvent) => {
@@ -147,7 +147,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               onClick={handleLogout}
               className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-center mt-4 transition-colors duration-200" // Adicionado mt-4 para espaçamento
             >
-              <LogOut className="mr-2" size={20} /> {/* Ícone de Logout */}
+              <LogOut className="mr-2" size={20} />
               Logout
             </Link>
           </>
