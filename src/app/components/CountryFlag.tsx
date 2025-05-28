@@ -1,4 +1,3 @@
-// components/CountryFlag.tsx
 import Image from 'next/image';
 import { Country } from '../@types/country';
 
@@ -12,7 +11,7 @@ const CountryFlag: React.FC<CountryFlagProps> = ({ country }) => {
   return (
     <div
       className="
-            border border-purple-800 rounded-lg p-4 text-center
+            border border-gray-200 rounded-lg p-4 text-center
             flex flex-col items-center justify-start h-64
             shadow-md hover:shadow-lg transition-transform duration-200 ease-in-out transform hover:-translate-y-1
             "
@@ -25,6 +24,7 @@ const CountryFlag: React.FC<CountryFlagProps> = ({ country }) => {
             fill
             style={{ objectFit: 'contain' }}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority
           />
         </div>
       )}

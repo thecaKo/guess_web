@@ -5,7 +5,7 @@ import CountryDisplay from '../components/CountryDisplay';
 
 export const metadata: Metadata = {
   title: 'World Flags',
-  description: 'All country flags of the world in a grid with search bar.',
+  description: 'Todos os paises do mundo!',
 };
 
 async function getCountries(): Promise<Country[]> {
@@ -33,7 +33,7 @@ export default async function Home() {
   if (!countries || countries.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <p className="text-xl text-gray-700">No countries found or error loading.</p>
+        <p className="text-xl text-gray-700">Erro na API.</p>
       </div>
     );
   }
@@ -42,7 +42,7 @@ export default async function Home() {
     <div className="min-h-screen py-8 px-4 bg-gray-800">
       <main className="flex flex-col items-center justify-center">
         <h1 className="text-5xl font-extrabold text-white mb-12 text-center">
-          Bandeiras dos Paises(Em Inglês)
+          Bandeiras dos Paises
         </h1>
         <CountryDisplay initialCountries={countries} />
       </main>
