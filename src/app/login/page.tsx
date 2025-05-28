@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { UserPlus, Mail, Lock } from 'lucide-react';
+import { Mail, Lock } from 'lucide-react';
 import Link from "next/link";
+import Cookies from "js-cookie"
 
 export default function Login() {
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,10 +17,6 @@ export default function Login() {
 
   const validateForm = () => {
     setError("");
-    if (!username.trim()) {
-      setError("O nome de usuário é obrigatório.");
-      return false;
-    }
     if (!email.includes("@") || !email.includes(".")) {
       setError("Por favor, insira um e-mail válido.");
       return false;
@@ -56,9 +52,16 @@ export default function Login() {
       });
 
       if (response.ok) {
-        setTimeout(() => {
-          router.push("/");
-        }, 2000);
+        const data = await response.json()
+        const refreshToken = data.token;
+
+        Cookies.set('refreshToken', refreshToken, { expires: 7, secure: process.env.NODE_ENV === 'production' });
+
+        setSuccess("Login bem-sucedido!");
+
+        router.push('/');
+        router.refresh();
+
       } else {
         const errorData = await response.json();
         setError(errorData.message || "Erro ao entrar.");

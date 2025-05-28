@@ -4,19 +4,17 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  LayoutDashboard,
   MessageSquare,
   User,
   Settings,
   HelpCircle,
   Users,
-  BriefcaseBusiness,
-  KanbanIcon,
-  ListChecks,
   LogIn,
   UserPlus,
+  LogOut,
 } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 interface SidebarProps {
   userName?: string;
@@ -39,6 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   apiVersion,
 }) => {
   const pathname = usePathname();
+  const router = useRouter();
   const [activeItem, setActiveItem] = useState<string | null>(null);
 
   const isLoggedIn = !!userName;
@@ -56,8 +55,28 @@ const Sidebar: React.FC<SidebarProps> = ({
     { id: 'MiniGame', label: 'MiniGame', icon: Users, link: '/MiniGame' },
     { id: 'Ajustes', label: 'Ajustes', icon: Settings, link: '/ajustes' },
     { id: 'Documentacao', label: 'Documentação', icon: HelpCircle, link: '/documentacao' },
-    { id: 'Chatbot', label: 'Chatbot', icon: MessageSquare, link: '/chatbot' },
+    { id: 'Bandeiras', label: 'Bandeiras', icon: MessageSquare, link: '/chatbot' },
   ];
+
+  const handleLogout = async (e: React.MouseEvent) => {
+    e.preventDefault(); 
+
+    try {
+      const response = await fetch('http://localhost:3333/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    } catch (error) {
+      console.error("Erro ao conectar com o endpoint de logout:", error);
+    } finally {
+      Cookies.remove('refreshToken');
+      console.log("Usuário deslogado localmente!");
+      router.push('/'); 
+      router.refresh();
+    }
+  };
 
   return (
     <div className="w-64 bg-gray-900 text-gray-200 h-screen flex flex-col shadow-lg p-5">
@@ -123,6 +142,14 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </span>
               )}
             </div>
+            <Link
+              href="/" 
+              onClick={handleLogout}
+              className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-center mt-4 transition-colors duration-200" // Adicionado mt-4 para espaçamento
+            >
+              <LogOut className="mr-2" size={20} /> {/* Ícone de Logout */}
+              Logout
+            </Link>
           </>
         ) : (
           <div className="flex flex-col gap-3">

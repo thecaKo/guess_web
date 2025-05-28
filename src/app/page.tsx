@@ -1,6 +1,6 @@
 
 export default function Home() {
   return (
-    <h1>TNC</h1>
+    <h1>TO DO</h1>
   );
 }
