@@ -64,7 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     e.preventDefault(); 
 
     try {
-      const response = await fetch('http://localhost:3333/logout', {
+      const response = await fetch('https://guessapi-production.up.railway.app/logout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

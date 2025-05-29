@@ -46,7 +46,7 @@ const CountryDisplay: React.FC<CountryDisplayProps> = ({ initialCountries }) => 
             <CountryFlag key={country.cca2} country={country} />
           ))
         ) : (
-          <p className="col-span-full text-center text-xl text-gray-600">Sem resultados para "{searchTerm}".</p>
+          <p className="col-span-full text-center text-xl text-gray-600">Sem resultados para {searchTerm}.</p>
         )}
       </div>
     </>

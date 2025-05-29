@@ -3,12 +3,11 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react'; 
 
-// 4. Função auxiliar para ler cookies
 function getCookie(name: string): string | undefined {
   if (typeof document === 'undefined') return undefined;
   const cookies = document.cookie.split(';');
   for (let i = 0; i < cookies.length; i++) {
-    let cookie = cookies[i].trim();
+    const cookie = cookies[i].trim();
     if (cookie.startsWith(name + '=')) {
       return cookie.substring(name.length + 1);
     }

@@ -1,13 +1,19 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link'; 
-import { Award } from 'lucide-react'; 
+import Link from 'next/link';
+import { Award } from 'lucide-react';
 
-interface RankingEntry {
+interface APIRankingEntry {
   id: string;
   username: string;
   bestScore: number;
+}
+
+interface RankingEntry {
+  id: string;
+  name: string;
+  score: number;
 }
 
 export default function RankingPage() {
@@ -21,25 +27,30 @@ export default function RankingPage() {
         setIsLoading(true);
         setError(null);
 
-        const response = await fetch('http://localhost:3333/ranking'); 
-        
+        const response = await fetch('https://guessapi-production.up.railway.app/ranking');
+
         if (!response.ok) {
-          const errorData = await response.json();
+          const errorData: { message?: string } = await response.json();
           throw new Error(errorData.message || 'Falha ao buscar o ranking do servidor.');
         }
 
-        const data: RankingEntry[] = await response.json(); 
-        
-        const mappedRanking = data.map(user => ({
+        const data: APIRankingEntry[] = await response.json();
+
+        const mappedRanking: RankingEntry[] = data.map(user => ({
           id: user.id,
           name: user.username,
           score: user.bestScore,
         }));
 
         setRanking(mappedRanking);
-      } catch (err: any) {
-        console.error("Erro no fetch do ranking:", err);
-        setError(err.message || 'Erro ao carregar o ranking.');
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          console.error("Erro no fetch do ranking:", err);
+          setError(err.message);
+        } else {
+          console.error("Erro inesperado no fetch do ranking:", err);
+          setError('Erro ao carregar o ranking.');
+        }
       } finally {
         setIsLoading(false);
       }
@@ -72,7 +83,7 @@ export default function RankingPage() {
         <h2 className="text-3xl font-bold mb-6 text-center text-white flex items-center justify-center gap-3">
           <Award size={32} className="text-yellow-400" /> Top 10 <Award size={32} className="text-yellow-400" />
         </h2>
-        
+
         {ranking.length === 0 ? (
           <p className="text-xl text-center text-gray-400">Nenhum dado de ranking disponível ainda.</p>
         ) : (

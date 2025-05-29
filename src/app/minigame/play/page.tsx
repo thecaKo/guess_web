@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Country } from '../../../app/@types/country';
 
-const GAME_DURATION = 6000;
+const GAME_DURATION = 60;
 const POINTS_PER_CORRECT_ANSWER = 100;
 
 interface ProcessedCountry extends Country {
@@ -51,9 +51,11 @@ export default function MiniGamePlay() {
         if (inputRef.current) {
           inputRef.current.focus();
         }
-      } catch (err: any) {
-        setError(err.message);
-        setIsLoading(false);
+      } catch (error) {
+        if (error instanceof Error) {
+            console.error('Error in API route:', error.message);
+            setError(error.message);
+            setIsLoading(false);
       }
     };
     loadCountries();

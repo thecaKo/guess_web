@@ -43,7 +43,7 @@ export default function Login() {
     };
 
     try {
-      const response = await fetch("http://localhost:3333/login", {
+      const response = await fetch("https://guessapi-production.up.railway.app/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,6 +68,7 @@ export default function Login() {
       }
     } catch (err) {
       setError("Erro ao conectar com o servidor. Verifique sua conexão ou tente novamente.");
+      return err
     } finally {
       setIsLoading(false);
     }

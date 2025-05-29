@@ -19,7 +19,7 @@ export default async function RootLayout({
 
   if (refreshToken) {
     try {
-      const response = await fetch('http://localhost:3333/me', {
+      const response = await fetch('https://guessapi-production.up.railway.app/me', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

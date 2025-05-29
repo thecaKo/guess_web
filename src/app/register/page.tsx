@@ -15,7 +15,7 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const validateForm = () => {
+  const validateForm = (): boolean => {
     setError("");
     if (!username.trim()) {
       setError("O nome de usuário é obrigatório.");
@@ -48,7 +48,7 @@ export default function Register() {
     };
 
     try {
-      const response = await fetch("http://localhost:3333/register", {
+      const response = await fetch("https://guessapi-production.up.railway.app/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,11 +62,18 @@ export default function Register() {
           router.push("/login");
         }, 2000);
       } else {
-        const errorData = await response.json();
+        interface ErrorResponse {
+          message?: string;
+        }
+        const errorData: ErrorResponse = await response.json();
         setError(errorData.message || "Erro ao registrar. Tente novamente mais tarde.");
       }
-    } catch (err) {
-      setError("Erro ao conectar com o servidor. Verifique sua conexão ou tente novamente.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(`Erro ao conectar com o servidor: ${err.message}. Verifique sua conexão ou tente novamente.`);
+      } else {
+        setError("Erro ao conectar com o servidor. Verifique sua conexão ou tente novamente.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -103,76 +110,76 @@ export default function Register() {
                 value={username}
               />
             </div>
-          </div>
-
-          <div>
-            <label htmlFor="email" className="block text-gray-300 text-sm font-semibold mb-2">
-              Email
-            </label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-              <input
-                id="email"
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="seuemail@example.com"
-                className="w-full pl-10 pr-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-colors"
-                required
-                value={email}
-              />
             </div>
-          </div>
 
-          <div>
-            <label htmlFor="password" className="block text-gray-300 text-sm font-semibold mb-2">
-              Senha
-            </label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-              <input
-                id="password"
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Mínimo de 6 caracteres"
-                className="w-full pl-10 pr-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-colors"
-                required
-                value={password}
-              />
+            <div>
+              <label htmlFor="email" className="block text-gray-300 text-sm font-semibold mb-2">
+                Email
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  id="email"
+                  type="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="seuemail@example.com"
+                  className="w-full pl-10 pr-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-colors"
+                  required
+                  value={email}
+                />
+              </div>
             </div>
-          </div>
 
-          {error && (
-            <div className="bg-red-900 border border-red-700 text-red-100 p-3 rounded-md text-sm text-center">
-              {error}
+            <div>
+              <label htmlFor="password" className="block text-gray-300 text-sm font-semibold mb-2">
+                Senha
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  id="password"
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Mínimo de 6 caracteres"
+                  className="w-full pl-10 pr-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-colors"
+                  required
+                  value={password}
+                />
+              </div>
             </div>
-          )}
 
-          {success && (
-            <div className="bg-green-900 border border-green-700 text-green-100 p-3 rounded-md text-sm text-center">
-              {success}
-            </div>
-          )}
+            {error && (
+              <div className="bg-red-900 border border-red-700 text-red-100 p-3 rounded-md text-sm text-center">
+                {error}
+              </div>
+            )}
 
-          <button
-            type="submit"
-            className={`w-full py-3 rounded-md font-bold text-lg transition-all duration-300
-              ${isLoading
-                ? "bg-purple-800 cursor-not-allowed"
-                : "bg-purple-600 hover:bg-purple-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-              }`}
-            disabled={isLoading}
-          >
-            {isLoading ? "Registrando..." : "Registrar"}
-          </button>
-        </form>
+            {success && (
+              <div className="bg-green-900 border border-green-700 text-green-100 p-3 rounded-md text-sm text-center">
+                {success}
+              </div>
+            )}
 
-        <p className="text-center text-gray-400 text-sm mt-6">
-          Já tem uma conta?{" "}
-          <Link href="/login" className="text-purple-400 hover:text-purple-300 font-semibold transition-colors">
-            Faça Login
-          </Link>
-        </p>
+            <button
+              type="submit"
+              className={`w-full py-3 rounded-md font-bold text-lg transition-all duration-300
+                ${isLoading
+                  ? "bg-purple-800 cursor-not-allowed"
+                  : "bg-purple-600 hover:bg-purple-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                }`}
+              disabled={isLoading}
+            >
+              {isLoading ? "Registrando..." : "Registrar"}
+            </button>
+          </form>
+
+          <p className="text-center text-gray-400 text-sm mt-6">
+            Já tem uma conta?{" "}
+            <Link href="/login" className="text-purple-400 hover:text-purple-300 font-semibold transition-colors">
+              Faça Login
+            </Link>
+          </p>
+        </div>
       </div>
-    </div>
-  );
+    );
 }
