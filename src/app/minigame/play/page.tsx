@@ -59,6 +59,7 @@ export default function MiniGamePlay() {
       }
     };
     loadCountries();
+  }
   }, []);
 
   useEffect(() => {
